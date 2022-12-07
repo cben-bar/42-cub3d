@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   find_map.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cben-bar <cben-bar@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: mgolinva <mgolinva@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/10 13:46:37 by cben-bar          #+#    #+#             */
-/*   Updated: 2022/11/16 17:26:40 by cben-bar         ###   ########lyon.fr   */
+/*   Updated: 2022/12/07 14:41:21 by mgolinva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,68 +38,86 @@ int	find_map_info(t_data *data, char *flat, int i)
 	if (!data->pars->map)
 		return (0);
 	data->pars->len_map = find_len_map(flat, i);
-	fill_struct(data, flat, i);
+	fill_struct(data, flat, i, 0);
 	return (1);
 }
 
-int	check_just_map(char *flat)
+int	get_map_begginning(char *flat)
 {
 	int	i;
-	int	check;
-	int	nl;
+	int	beg;
 
 	i = 0;
 	while (flat[i])
 	{
-		check = is_in_charset(flat[i]);
-		nl = new_line_counter(&flat[i]);
-		if (flat[i] != '\n')
-			if (check == 0 || nl == 0)
-				return (0);
-		i++;
+		if (flat[i] == '\n')
+		{
+			i ++;
+			while (flat[i] && is_in_charset(flat[i]) == 3)
+				i ++;
+			beg = i;
+			while (flat[i] && is_in_charset(flat[i]) != 0 && flat[i] != '\n')
+				i ++;
+			if (flat[i] == '\n')
+			{
+				while ((flat[beg - 1] == ' ')
+					&& (flat[beg - 1] != '\n'))
+					beg --;
+				return (beg);
+			}
+		}
+		i ++;
 	}
-	return (1);
+	return (i);
 }
 
-int	find_beg_map(char *flat, int i)
+t_bool	is_map_last_elem(char *flat, int beg)
 {
-	int	j;
-	int	check;
-	int	v;
+	int		i;
+	int		nl_ct;
+	size_t	flat_len;
 
-	j = i;
-	check = 0;
-	while (flat[j] && check == 0)
+	i = beg - 1;
+	flat_len = ft_strlen(flat);
+	while ((size_t)i < flat_len && is_in_charset(flat[i]) != 0)
 	{
-		while (flat[j] == '\n')
-			j++;
-		i = j;
-		check = 1;
-		while (flat[j] && flat[j] != '\n')
+		nl_ct = 0;
+		i ++;
+		while (((flat[i])
+				&& (flat[i] == ' ' || flat[i] == 10))
+			|| (flat[i] && nl_ct > 1 && flat[i] == 9))
 		{
-			v = is_in_charset(flat[j]);
-			if (v != 1 && v != 3)
-				check = 0;
-			j++;
-			if (!check_just_map(&flat[i]))
-				check = 0;
+			if (flat[i] == '\n')
+				nl_ct ++;
+			i ++;
 		}
+		if (nl_ct > 1 && (size_t)i < flat_len)
+			return (false);
 	}
-	if ((size_t)j == ft_strlen(flat))
-		return (j);
-	return (i);
+	if ((size_t)i == flat_len)
+		return (true);
+	else
+		return (false);
 }
 
 void	find_map(char *flat, t_data *data)
 {
-	int	i;
+	int	beg;
 
-	i = find_beg_map(flat, 0);
-	if ((size_t)i == ft_strlen(flat))
+	beg = get_map_begginning(flat);
+	if (is_map_last_elem(flat, beg) == false)
+	{
+		free(flat);
+		free_and_quit("Invalid map", data);
+	}
+	if ((size_t)beg == ft_strlen(flat))
 	{
 		free(flat);
 		free_and_quit("Map not found", data);
 	}
-	if (!find_map_info(data, flat, i))
+	if (!find_map_info(data, flat, beg))
+	{
+		free (flat);
 		free_and_quit("Error: Map, or memory allocation failed", data);
+	}
 }

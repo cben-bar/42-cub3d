@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_split.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cben-bar <cben-bar@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: mgolinva <mgolinva@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/20 18:08:54 by cben-bar          #+#    #+#             */
-/*   Updated: 2022/10/27 16:44:35 by cben-bar         ###   ########lyon.fr   */
+/*   Updated: 2022/12/05 14:34:42 by mgolinva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,6 +89,6 @@ char	**ft_split(char const *s, char c)
 	}
 	if (i_e > i_b && !ft_strsuperdup (split, i++, s + i_b, i_e - i_b))
 		return (NULL);
-	split[i] = NULL;
+	split[i] = 0;
 	return (split);
 }

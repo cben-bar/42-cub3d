@@ -3,16 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   defines.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cben-bar <cben-bar@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: mgolinva <mgolinva@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/18 16:21:02 by mgolinva          #+#    #+#             */
-/*   Updated: 2022/11/23 21:11:34 by cben-bar         ###   ########lyon.fr   */
+/*   Updated: 2022/12/07 09:56:52 by mgolinva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# ifndef DEFINE_H
-# define DEFINE_H
+#ifndef DEFINES_H
+# define DEFINES_H
 
+# define BLOP 581257624
 # define NONE 0xFF000000
 # define WHITE 0x00FFFFFF
 # define GREY 0x00BFBFBF
@@ -32,38 +33,44 @@
 # define D 2
 # define Q 12
 # define E 14
+# define LEFT_A 123
+# define RIGHT_A 124
 # define SPACE 49
 # define TAB 48
 # define ESC 53
 
+# define WIN_W 1664.0
+# define WIN_H 1024.0
+# define HALF_SCREEN 512.0
+# define MAP_SQUARE 16
 # define STEP 0.2
 # define ROTATION 10
+# define FOV 90.0
+# define RAY_NB WIN_W
+# define ANGLE_SHIFTER 0.0540865385 // FOV / WIN_W
+# define HALF_FOV 45.0
+# define TEXT_SIZE 704.0 
 
 # define SOUTH	0
 # define NORTH	1
 # define EAST	2
 # define WEST	3
+# define FIRST_Q 1 // 0 a 90 degres, 0 inclus
+# define SECOND_Q 2 // 90 a 180 degres, 90 inclus
+# define THIRD_Q 3 // 180 a 270 degres, 180 inclus
+# define FORTH_Q 4 // 270 a 360 degres, 270 inclus
 
-# define DEGREE_L -0.1745329
-# define DEGREE_R 0.1745329
 # define PI_2 1.57
 # define PI 3.14
+
 # define LEFT 0
 # define RIGHT 1
+# define FORWARD 2
+# define BACKWARD 3
 
 # define X 0
 # define Y 1
 
 # define BUFFER_SIZE 1
-
-# define WIN_W 1664
-# define WIN_H 1024
-# define MAP_SQUARE 64
-
-# define FOV 60
-# define FIRST_Q 1 // 0 a 90 degres, 0 inclus
-# define SECOND_Q 2 // 90 a 180 degres, 90 inclus
-# define THIRD_Q 3 // 180 a 270 degres, 180 inclus
-# define FORTH_Q 4 // 270 a 360 degres, 270 inclus
 
 #endif

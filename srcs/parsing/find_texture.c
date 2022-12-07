@@ -6,7 +6,7 @@
 /*   By: cben-bar <cben-bar@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/02 21:42:09 by cben-bar          #+#    #+#             */
-/*   Updated: 2022/11/16 17:09:20 by cben-bar         ###   ########lyon.fr   */
+/*   Updated: 2022/12/07 10:20:10 by cben-bar         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,10 @@ void	check_path_text_1(char *path, int flag, t_data *data)
 
 	fd = open(path, O_RDONLY);
 	if (fd == -1)
+	{
 		close(fd);
+		free_and_quit("Invalid line", data);
+	}
 	else
 	{
 		close(fd);
@@ -52,10 +55,13 @@ void	check_path_text_1(char *path, int flag, t_data *data)
 	}	
 }
 
-int	serach_2(char *line, int i)
+int	search_2(char *line, int i)
 {
-	while (line[i] == ' ')
-		i++;
+	if ((size_t) i > ft_strlen(line))
+		return (0);
+	while ((line[i])
+		&& (line[i] == ' ' || line[i] == 9))
+			i++;
 	return (i);
 }
 
@@ -64,32 +70,17 @@ int	search_1(int check, char *line, char first, char twice)
 	int		i;
 
 	i = 0;
-	while (line[i])
-	{
-		while (line[i] == ' ')
-			i++;
-		if (line[i] == first)
-		{
-			check++;
-			i++;
-		}
-		while (line[i] == ' ')
-			i++;
-		if (line[i] == twice)
-		{
-			check++;
-			i++;
-		}
-		if (check == 2)
-			break ;
-		else
-			check = 0;
-		i++;
-	}
+	i = search_2(line, i);
+	if (line[i] && line[i] == first && check == 0)
+		check++;
+	i++;
+	i = search_2(line, i);
+	if (line[i] && line[i] == twice && check == 1)
+		check++;
+	i++;
 	if (check == 2)
-		return (serach_2(line, i));
-	else
-		return (0);
+		return (search_2(line, i));
+	return (0);
 }
 
 void	find_texture(char **tab, t_data *data)
@@ -99,7 +90,7 @@ void	find_texture(char **tab, t_data *data)
 
 	i = 0;
 	j = 0;
-	while (tab[i])
+	while (tab != NULL && tab[i])
 	{
 		j = search_1(0, tab[i], 'N', 'O');
 		if (j)

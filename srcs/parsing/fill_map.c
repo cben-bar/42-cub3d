@@ -6,7 +6,7 @@
 /*   By: cben-bar <cben-bar@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/15 12:55:19 by cben-bar          #+#    #+#             */
-/*   Updated: 2022/11/16 18:03:11 by cben-bar         ###   ########lyon.fr   */
+/*   Updated: 2022/12/07 10:44:55 by cben-bar         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void	fill_it(char *origin, t_data *data, int i)
 
 	tmp = malloc(sizeof(char) * data->pars->len_map + 1);
 	if (!tmp)
-		free_and_quit("Error: Allocation memory", data);
+		free_and_quit("Error: memory Allocation", data);
 	j = 0;
 	while (origin[j])
 	{

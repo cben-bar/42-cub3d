@@ -6,7 +6,7 @@
 /*   By: cben-bar <cben-bar@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/15 13:12:13 by cben-bar          #+#    #+#             */
-/*   Updated: 2022/11/15 16:35:14 by cben-bar         ###   ########lyon.fr   */
+/*   Updated: 2022/12/07 14:35:17 by cben-bar         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ void	get_value(char *line, t_data *data)
 	}
 }
 
-int	is_valid_line(char *line, char to_find)
+int	is_valid_line(char *line, char to_find, int v)
 {
 	int	i;
 	int	check;
@@ -88,7 +88,7 @@ int	is_valid_line(char *line, char to_find)
 	check = 0;
 	while (line[i])
 	{
-		if (line[i] != ' ' && !ft_isdigit(line[i])
+		if (line[i] != ' ' && line[i] != 9 && !ft_isdigit(line[i])
 			&& line[i] != ',' && line[i] != to_find)
 			return (0);
 		if (line[i] == to_find)
@@ -97,8 +97,12 @@ int	is_valid_line(char *line, char to_find)
 			if (check > 1)
 				return (0);
 		}
+		if (line[i] == ',')
+			v++;
 		i++;
 	}
+	if (v != 2)
+		return (0);
 	if (check == 1)
 		return (1);
 	return (0);
@@ -111,12 +115,12 @@ void	find_rgb(char **tab, t_data *data)
 	i = 0;
 	while (tab[i])
 	{
-		if (is_valid_line(tab[i], 'F') && !data->pars->witness_f)
+		if (is_valid_line(tab[i], 'F', 0) && !data->pars->witness_f)
 		{
 			data->pars->flag = 'F';
 			get_value(tab[i], data);
 		}
-		if (is_valid_line(tab[i], 'C') && !data->pars->witness_c)
+		if (is_valid_line(tab[i], 'C', 0) && !data->pars->witness_c)
 		{
 			data->pars->flag = 'C';
 			get_value(tab[i], data);

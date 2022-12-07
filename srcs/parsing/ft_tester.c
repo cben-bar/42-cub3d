@@ -12,14 +12,14 @@
 
 #include "../../includes/cube.h"
 
-int		ft_strlen2d(char **array)
+int	ft_strlen2d(char **array)
 {
 	int	i;
 
 	i = 0;
 	if (!array)
 		return (0);
-	while(array[i])
+	while (array[i])
 		i ++;
 	return (i);
 }

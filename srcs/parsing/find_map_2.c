@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   find_map_2.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cben-bar <cben-bar@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: mgolinva <mgolinva@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/15 14:41:29 by cben-bar          #+#    #+#             */
-/*   Updated: 2022/11/15 15:08:12 by cben-bar         ###   ########lyon.fr   */
+/*   Updated: 2022/12/07 14:42:37 by mgolinva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int	find_len_map(char *flat, int i)
 	len = 0;
 	while (flat[i])
 	{
-		if (flat[i] == '\n')
+		if (flat[i] == '\n' || flat[i] == '\0')
 		{
 			if (len < j)
 				len = j;
@@ -33,6 +33,8 @@ int	find_len_map(char *flat, int i)
 			j++;
 		i++;
 	}
+	if (len < j)
+		len = j;
 	return (len);
 }
 
@@ -42,7 +44,7 @@ int	is_in_charset(char c)
 		return (1);
 	if (c == 'N' || c == 'S' || c == 'E' || c == 'W')
 		return (2);
-	if (c == ' ' || (c >= 9 && c <= 13))
+	if (c == ' ' || c == '\n')
 		return (3);
 	return (0);
 }
@@ -78,15 +80,15 @@ int	check_len(char *flat)
 	return (len);
 }
 
-void	fill_struct(t_data *data, char *flat, int i)
+void	fill_struct(t_data *data, char *flat, int i, int j)
 {
-	int	j;
 	int	k;
 
-	j = 0;
 	while (flat[i] && j < data->pars->height_map)
 	{
 		data->pars->map[j] = malloc(sizeof(char) * (check_len(&flat[i]) + 1));
+		if (!data->pars->map[j])
+			free_and_quit("malloc error", data);
 		k = 0;
 		while (flat[i] && flat[i] != '\n')
 		{

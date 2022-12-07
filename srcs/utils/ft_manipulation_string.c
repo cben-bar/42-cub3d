@@ -6,7 +6,7 @@
 /*   By: cben-bar <cben-bar@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/27 17:15:40 by cben-bar          #+#    #+#             */
-/*   Updated: 2022/11/03 18:44:16 by cben-bar         ###   ########lyon.fr   */
+/*   Updated: 2022/12/07 14:35:09 by cben-bar         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ char	*ft_strcpy(char *dst, char *src)
 	return (dst);
 }
 
-int	ft_atoi(const char *str)
+int	ft_atoi(const char *str, t_data *data)
 {
 	long	i;
 	int		maybe_neg;
@@ -65,6 +65,8 @@ int	ft_atoi(const char *str)
 	i = 0;
 	maybe_neg = 1;
 	res = 0;
+	if (str == NULL || str[0] == '\0')
+		free_and_quit("Invalid rgb line", data);
 	while ((str[i] >= 9 && str[i] <= 13) || (str[i] == ' '))
 		i++;
 	if (str[i] == '-' || str[i] == '+')

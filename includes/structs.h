@@ -6,12 +6,12 @@
 /*   By: cben-bar <cben-bar@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/18 16:17:39 by mgolinva          #+#    #+#             */
-/*   Updated: 2022/11/24 16:35:23 by cben-bar         ###   ########lyon.fr   */
+/*   Updated: 2022/12/06 21:04:31 by cben-bar         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
-# ifndef STRUCT_H
-# define STRUCT_H
+#ifndef STRUCTS_H
+# define STRUCTS_H
 
 typedef enum e_bool
 {
@@ -39,14 +39,15 @@ typedef struct s_vector
 	double	dy;
 	double	step_y;
 	double	step_x;
+	double	length;
 }	t_vector;
 
 typedef struct s_square
 {
-	int top_x;
-	int top_y;
-	int bot_x;
-	int bot_y;
+	int	top_x;
+	int	top_y;
+	int	bot_x;
+	int	bot_y;
 }		t_square;
 
 typedef struct s_img
@@ -56,15 +57,19 @@ typedef struct s_img
 	int		bits;
 	int		line_size;
 	int		endian;
+	int		width;
+	int		height;
 }			t_img;
 
 typedef struct s_pov
 {
-	t_fcoo	fcoo;
-	int			direction_angle;
+	t_fcoo		fcoo;
+	double		dir_angle;
 	int			quadrant;
-	t_vector	d_vector_x;
-	t_vector	d_vector_y;
+	int			wall_type;
+	double		wall_height;
+	t_vector	vector_x;
+	t_vector	vector_y;
 	t_vector	next_wall;
 }	t_pov;
 
@@ -94,12 +99,14 @@ typedef struct s_data
 {
 	void	*mlx;
 	void	*win;
-	char	**map_array;
+	int		ceilling_color;
+	int		floor_color;
 	t_pov	pov;
+	t_img	wall[4];
 	t_img	map_img;
+	t_img	fov;
 	t_pars	*pars;
 	t_bool	keyboard[200];
 }			t_data;
-
 
 #endif

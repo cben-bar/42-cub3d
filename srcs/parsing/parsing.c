@@ -6,7 +6,7 @@
 /*   By: cben-bar <cben-bar@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/18 18:20:16 by cben-bar          #+#    #+#             */
-/*   Updated: 2022/11/16 18:03:49 by cben-bar         ###   ########lyon.fr   */
+/*   Updated: 2022/12/07 10:46:40 by cben-bar         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,19 +77,23 @@ char	*joiner(int fd)
 	return (conc);
 }
 
-void	parsing(t_data *data, int ac, const char *filename)
+void	parsing(t_data *data, const char *filename)
 {
 	int		fd;
 	char	*flat;
 	char	**tab;
 
 	fd = open(filename, O_RDONLY);
-	if (ac != 2)
-		free_and_quit("Bad argument", data);
+	if (fd < 1 && fd > OPEN_MAX)
+		return (close_map(fd, "File descriptor default", data));
 	check_extension(filename, data);
 	check_path(filename, data);
 	init_pars(data);
 	flat = joiner(fd);
+	close(fd);
+	if (!flat)
+		return (close_map(fd, "Empty map", data));
+	check_flat_map(data, flat);
 	tab = ft_split(flat, '\n');
 	find_map(flat, data);
 	free(flat);

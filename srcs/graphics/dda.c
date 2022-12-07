@@ -3,14 +3,39 @@
 /*                                                        :::      ::::::::   */
 /*   dda.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cben-bar <cben-bar@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: mgolinva <mgolinva@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/09 14:02:07 by mgolinva          #+#    #+#             */
-/*   Updated: 2022/11/23 17:03:10 by cben-bar         ###   ########lyon.fr   */
+/*   Updated: 2022/12/06 14:01:34 by mgolinva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/cube.h"
+
+static void	line_coo_modification(t_data data,
+	t_vector vector, float *x, float *y)
+{
+	if (data.pov.dir_angle >= 0 && data.pov.dir_angle < 90)
+	{
+		*x = *x - vector.dx;
+		*y = *y - vector.dy;
+	}
+	else if (data.pov.dir_angle >= 90 && data.pov.dir_angle < 180)
+	{
+		*x = *x + vector.dx;
+		*y = *y - vector.dy;
+	}
+	else if (data.pov.dir_angle >= 180 && data.pov.dir_angle < 270)
+	{
+		*x = *x + vector.dx;
+		*y = *y + vector.dy;
+	}
+	else if (data.pov.dir_angle >= 270 && data.pov.dir_angle < 360)
+	{
+		*x = *x - vector.dx;
+		*y = *y + vector.dy;
+	}
+}
 
 void	dda(t_data *data, t_img *img, t_vector vector, int color)
 {
@@ -30,32 +55,13 @@ void	dda(t_data *data, t_img *img, t_vector vector, int color)
 		step = vector.dy;
 	vector.dx = vector.dx / step;
 	vector.dy = vector.dy / step;
-	while (i <= step)
+	while (i <= step + 1)
 	{
-		if ((x < 0 || x > WIN_W)
-		|| (y < 0 || y > WIN_H))
+		if ((x < 0 || x >= WIN_W - MAP_SQUARE * data->map_img.width + 1)
+			|| (y < 0 || y >= WIN_H - MAP_SQUARE * data->map_img.height))
 			break ;
 		pixel_put(img, x, y, color);
-		if (data->pov.direction_angle >= 0 && data->pov.direction_angle <= 90)
-		{
-			x = x - vector.dx;	
-			y = y - vector.dy;
-		}
-		else if (data->pov.direction_angle > 90 && data->pov.direction_angle < 180)
-		{
-			x = x + vector.dx;	
-			y = y - vector.dy;	
-		}
-		else if(data->pov.direction_angle >= 180 && data->pov.direction_angle < 270)
-		{
-			x = x + vector.dx;	
-			y = y + vector.dy;
-		}
-		else if(data->pov.direction_angle >= 270 && data->pov.direction_angle < 360)
-		{
-			x = x - vector.dx;
-			y = y + vector.dy;
-		}
+		line_coo_modification(*data, vector, &x, &y);
 		i ++;
 	}
 }

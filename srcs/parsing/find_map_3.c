@@ -6,7 +6,7 @@
 /*   By: cben-bar <cben-bar@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/15 18:17:50 by cben-bar          #+#    #+#             */
-/*   Updated: 2022/11/16 17:26:37 by cben-bar         ###   ########lyon.fr   */
+/*   Updated: 2022/12/06 20:17:13 by cben-bar         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,4 +46,23 @@ int	new_line_counter(char *flat)
 		i++;
 	}
 	return (1);
+}
+
+void	check_char_map(t_data *data)
+{
+	int	i;
+	int	j;
+
+	i = 0;
+	while (data->pars->map[i])
+	{
+		j = 0;
+		while (data->pars->map[i][j])
+		{
+			if (is_in_charset(data->pars->map[i][j]) == 0)
+				free_and_quit("Map countains wrong character", data);
+			j++;
+		}
+		i++;
+	}
 }

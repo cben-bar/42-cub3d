@@ -6,7 +6,7 @@
 /*   By: mgolinva <mgolinva@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/16 15:36:57 by cben-bar          #+#    #+#             */
-/*   Updated: 2022/11/21 12:32:06 by mgolinva         ###   ########.fr       */
+/*   Updated: 2022/12/07 09:40:43 by mgolinva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,26 +56,28 @@ void	fill_data_player(char c, t_data *data, int line, int i)
 {
 	if (c == 'N')
 	{
-		data->pov.direction_angle = 90;
+		data->pov.dir_angle = 90;
 		data->pov.quadrant = SECOND_Q;
 	}
 	if (c == 'S')
 	{
-		data->pov.direction_angle = 270;
+		data->pov.dir_angle = 270;
 		data->pov.quadrant = FORTH_Q;
 	}
 	if (c == 'E')
 	{
-		data->pov.direction_angle = 0;
+		data->pov.dir_angle = 180;
 		data->pov.quadrant = FIRST_Q;
 	}
 	if (c == 'W')
 	{
-		data->pov.direction_angle = 180;
+		data->pov.dir_angle = 0;
 		data->pov.quadrant = THIRD_Q;
 	}
 	data->pov.fcoo.fy = line;
 	data->pov.fcoo.fx = i;
+	data->pov.fcoo.fy += 0.51;
+	data->pov.fcoo.fx += 0.51;
 	data->pars->witness_player = 1;
 }
 
